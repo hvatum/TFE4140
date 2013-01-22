@@ -1,0 +1,13 @@
+digraph G {
+    Start -> Evaluate [label="Got statements\nfrom VHDL"]
+    Evaluate -> evtqueue [label="Left side changed"]
+    evtqueue -> next
+    Evaluate -> next [label="No\nchange"]
+    next -> time [label="Queue is\nempty"]
+    time -> next [label="Got new\nstatements"]
+    next -> Evaluate [label="Evaluate\nnext"]
+
+    evtqueue [label="Add statement to Eventqueue\nat NOW + delta"]
+    next [label="Get next\nqueued statement"]
+    time [label="Advance to next timestep"]
+}
