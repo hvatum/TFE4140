@@ -12,7 +12,7 @@ END;
 ARCHITECTURE behavior OF ab_latch IS
 BEGIN
     s_Q <= A nor s_QN;
-    s_QN <= A nor s_Q;
+    s_QN <= B nor s_Q;
     Q <= s_Q;
     QN <= s_QN;
 END;
