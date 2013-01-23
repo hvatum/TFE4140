@@ -6,8 +6,6 @@ END test_ab_latch;
  
 ARCHITECTURE behavior OF test_ab_latch IS 
  
-    -- Component Declaration for the Unit Under Test (UUT)
- 
     COMPONENT ab_latch
     PORT(
          A : IN  std_logic;
@@ -17,18 +15,13 @@ ARCHITECTURE behavior OF test_ab_latch IS
         );
     END COMPONENT;
     
-
-   --Inputs
    signal A : std_logic := 'U';
    signal B : std_logic := 'U';
 
- 	--Outputs
    signal Q : std_logic;
    signal QN : std_logic;
  
 BEGIN
- 
-	-- Instantiate the Unit Under Test (UUT)
    uut: ab_latch PORT MAP (
           A => A,
           B => B,
@@ -36,7 +29,6 @@ BEGIN
           QN => QN
         );
 
-   -- Stimulus process
    stim_proc: process
    begin
 		wait for 100 ns;
@@ -50,5 +42,4 @@ BEGIN
 		wait for 10 ns ;
 		B <= '1' ; A <= '1' ;
    end process;
-
 END;

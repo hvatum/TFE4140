@@ -89,7 +89,20 @@ and do not interfere the already queued events.
 \subsection{}
 The simulation stops after all stimuli has been applied.
 
+\newpage
 \subsection{}
+\subsubsection{Implementation}
 \lstinputlisting[language=VHDL]{../vhdl/a1.vhdl}
-\lstinputlisting[language=VHDL]{../vhdl/test_ab_latch.vhdl}
+\newpage
+\subsubsection{Testbench}
+\lstinputlisting[language=VHDL]{../vhdl/test_ab_latch.vhd}
+\newpage
+\subsection*{Simulation}
+I ran my testbench in ISim. The results can be seen in figure \ref{img:isim}
+
+\begin{figure}[h!]
+\includegraphics[width=14cm]{simulation.png}
+\label{img:isim}
+\caption{Simulating in ISim}
+\end{figure}
 \end{document}
