@@ -8,6 +8,10 @@
 \usepackage{makeidx}
 \usepackage{hyperref}
 \usepackage{parskip}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
 \usepackage{multirow}
 \usepackage{tocloft}
 \renewcommand{\cftsecaftersnumb}{\hspace{6em}}
@@ -25,7 +29,7 @@
     pdfstartview={FitH},    % fits the width of the page to the window
     pdftitle={TFE4140 - Assignment 1 - hvatum},    % title
     pdfauthor={Stian Hvatum},     % author
-    pdfsubject={TFE4140 Modelling and Analysis of Digital Systems},   % subject of the document
+    pdfsubject={TFE4140 Modeling and Analysis of Digital Systems},   % subject of the document
     pdfcreator={Stian Hvatum},   % creator of the document
     pdfproducer={Stian Hvatum}, % producer of the document
     pdfnewwindow=true,      % links in new window
@@ -43,7 +47,7 @@
 \renewcommand{\thesubsection}{\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\arabic{subsubsection}.}
 
-\title{TFE4140 Modelling and Analysis of Digital Systems\\
+\title{TFE4140 Modeling and Analysis of Digital Systems\\
 \Huge Assignment 1}
 \author{Stian Hvatum (hvatum)\\MTDT}
 
@@ -54,6 +58,37 @@
 \section{}
 \subsection{}
 \subsection{}
-During a simulation cycle, 
+\begin{figure}
+\include{tikz-simcycle}
+\caption{Simulation Cycle}
+\label{dia:simcycle}
+\end{figure}
+As we see in figure \ref{dia:simcycle}, a VHDL simulation cycle begins with fetching the first statement.
+The first statement is the topmost line in the topmost process.
+When we evaluate the statement, if the left side, $Y$, of the statement changes its value, then we have to add
+all statements that depends on $Y$ to a dynamic event queue. This new event is added at current time + some given delay.
 
+As the event queue is sorted by event time, all events will be processed in order. When the system comes to a state where no more
+events occur, and the queue of events are empty, the simulation has come to an end.
+
+\subsection{}
+When no delay is explicitly specified for a statement, it implies a delay of zero. Since this might introduce changes to the
+event queue in such a way that statement order matters, we add a so called \textit{delta delay} to the time which event is queued for.
+The delta delay is an infinitesimal amount of time, such that the changes are reflected before the next real time step,
+and do not interfere the already queued events.
+
+\section{}
+\subsection{}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    Time	&A	&B	&Q	&QN	&Q+	&QN+	&Activated processes\\
+    \hline
+    \input{simulation}
+    \hline
+\end{tabular}
+\subsection{}
+The simulation stops after all stimuli has been applied.
+
+\subsection{}
+\lstinputlisting[language=VHDL]{../vhdl/a1.vhdl}
 \end{document}

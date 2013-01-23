@@ -1,0 +1,30 @@
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+    
+\begin{tikzpicture}[node distance = 2cm, auto]
+    % Place nodes
+    \node [block] (start) {Fetch first statement};
+    \node [cloud, left of=start] (load) {Load VHDL};
+    \node [block, below of=start] (eval) {Evaluate statement};
+    \node [decision, below of=eval] (changed) {Left side changed?};
+    \node [block, anchor=center] (add) at (-3, -7) {Add new statements to event queue at NOW + delay};
+    \node [decision, below of=changed, node distance=4cm] (more) {More statements in event queue};
+    \node [block, below of=more, node distance=4cm] (end) {Simulation done};
+    \node [block, right of=changed, node distance=3cm] (next) {Fetch next statement};
+    % Draw edges
+    \path [line] (start) -- (eval);
+    \path [line] (eval) -- (changed);
+    \path [line] (next) |- (eval);
+    \path [line] (add) |- (more);
+    \path [line] (changed) -| node [near start] {yes} (add);
+    \path [line] (changed) -- node {no}(more);
+    \path [line] (more) --  node{no}(end);
+    \path [line] (more) -| node [near start]{yes}(next);
+    \path [line,dashed] (load) -- (start);
+\end{tikzpicture}
