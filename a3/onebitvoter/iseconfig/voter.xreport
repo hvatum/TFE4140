@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2013-02-08T16:14:36</DateModified>
+  <DateModified>2013-02-08T20:12:20</DateModified>
   <ModuleName>voter</ModuleName>
-  <SummaryTimeStamp>2013-02-08T12:41:09</SummaryTimeStamp>
+  <SummaryTimeStamp>2013-02-08T19:17:26</SummaryTimeStamp>
   <SavedFilePath>/home/hvatum/Skole/TFE4140/a3/onebitvoter/iseconfig/voter.xreport</SavedFilePath>
   <ImplementationReportsDirectory>/home/hvatum/Skole/TFE4140/a3/onebitvoter/</ImplementationReportsDirectory>
-  <DateInitialized>2013-02-08T10:45:02</DateInitialized>
+  <DateInitialized>2013-02-08T19:13:13</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>
  <body>

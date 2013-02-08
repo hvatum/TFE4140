@@ -51,9 +51,8 @@ signal prev_working : std_logic_vector(3 downto 0);
 signal internal_voted : std_logic;
 
 component selector is
-	Generic (N: Natural := 4);
-    Port ( mcu : in  STD_LOGIC_VECTOR(N-1 downto 0);
-			  active : in  STD_LOGIC_VECTOR(N-1 downto 0);
+    Port ( mcu : in  STD_LOGIC_VECTOR(3 downto 0);
+			  active : in  STD_LOGIC_VECTOR(3 downto 0);
            y : out  STD_LOGIC
 );
 end component;
@@ -76,7 +75,7 @@ vote : process(clk, internal_voted)
 begin
 	if rising_edge(clk) then
 	if reset = '1' then
-			working <= (others => '0');
+			working <= (others => '1');
 			y <= '0';
 	else
 		y <= internal_voted;
@@ -93,7 +92,7 @@ begin
 	if rising_edge(clk) then
 		if (reset = '1') then
 			status <= "000";
-			prev_working <= (others => '0');
+			prev_working <= (others => '1');
 		else
 			prev_working <= working;
 			case working is
@@ -113,7 +112,7 @@ begin
 				when "1101" => status <= "001";
 				when "1110" => status <= "001";
 				when "1111" => status <= "000";
-				when others => status <= "111";
+				when others => status <= "---";
 			end case;
 		end if;
 	end if;
