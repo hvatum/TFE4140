@@ -50,6 +50,8 @@ signal working : std_logic_vector(3 downto 0);
 signal next_working : std_logic_vector(3 downto 0);
 signal tmp_working : std_logic_vector(3 downto 0);
 
+signal num_working : integer range 0 to 4;
+
 signal internal_voted : std_logic;
 
 component selector is
@@ -76,11 +78,11 @@ sel: component selector
 vote : process(clk, internal_voted)
 begin
 	if rising_edge(clk) then
-	if reset = '1' then
+		if reset = '1' then
 			y <= '0';
-	else
-		y <= internal_voted;
-	end if;
+		else
+			y <= internal_voted;
+		end if;
 	end if;
 end process;
 
@@ -89,15 +91,27 @@ begin
 	if reset = '1' then
 		next_working <= (others => '1');
 	else
-		next_working(0) <= bool_to_stdlogic((working(0) = '1' and (a = internal_voted)));
-		next_working(1) <= bool_to_stdlogic((working(1) = '1' and (b = internal_voted)));
-		next_working(2) <= bool_to_stdlogic((working(2) = '1' and (c = internal_voted)));
-		next_working(3) <= bool_to_stdlogic((working(3) = '1' and (d = internal_voted)));
+		next_working(0) <= working(0) and bool_to_stdlogic(a = internal_voted);
+		next_working(1) <= working(1) and bool_to_stdlogic(b = internal_voted);
+		next_working(2) <= working(2) and bool_to_stdlogic(c = internal_voted);
+		next_working(3) <= working(3) and bool_to_stdlogic(d = internal_voted);
 	end if;
 end process;
 
 process(clk, working, next_working) begin
 	tmp_working <= next_working and working;
+end process;
+
+process(next_working) is
+	VARIABLE count : integer range 0 to 4;
+begin
+			count := 0;
+			for i in 3 downto 0 loop
+				if next_working(i) = '1' then
+					count := count + 1;
+				end if;
+			end loop;
+			num_working <= count;
 end process;
 
 calc_status : process(clk, reset, tmp_working)
@@ -108,25 +122,12 @@ begin
 			working <= (others => '1');
 		else
 			working <= tmp_working;
-		case next_working is
-			when "0000" => status <= "111";
-			when "0001" => status <= "111";
-			when "0010" => status <= "111";
-			when "0011" => status <= "111";
-			when "0100" => status <= "111";
-			when "0101" => status <= "010";
-			when "0110" => status <= "010";
-			when "0111" => status <= "001";	
-			when "1000" => status <= "111";
-			when "1001" => status <= "010";
-			when "1010" => status <= "010";
-			when "1011" => status <= "001";
-			when "1100" => status <= "010";
-			when "1101" => status <= "001";
-			when "1110" => status <= "001";
-			when "1111" => status <= "000";
-			when others => status <= "---";
-		end case;
+			case num_working is
+				when 4 => 		status <= "000";
+				when 3 => 		status <= "001";
+				when 2 => 		status <= "010";
+				when others => status <= "111";
+			end case;
 		end if;
 	end if;
 end process;
